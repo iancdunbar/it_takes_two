@@ -447,76 +447,76 @@ public class SampleController : PoseListener
 	/// <summary>
 	/// Data logging GUI.
 	/// </summary>
-	private void OnGUI()
-	{
-		Color oldColor = GUI.color;
-		GUI.color = Color.black;
-		
-		if(m_tangoApplication.HasRequestedPermissions())
-		{
-			int guiIndex = 1;
-			GUI.Label(new Rect(Common.UI_LABEL_START_X, 
-			                   Common.UI_LABEL_START_Y, 
-			                   Common.UI_LABEL_SIZE_X , 
-			                   Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TANGO_SERVICE_VERSION, m_tangoServiceVersionName) + "</size>");
-			
-			// MOTION TRACKING
-			GUI.Label( new Rect(Common.UI_LABEL_START_X, 
-			                    Common.UI_POSE_LABEL_START_Y,
-			                    Common.UI_LABEL_SIZE_X , 
-			                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TARGET_TO_BASE_FRAME,
-			                                                             "Device",
-			                                                             "Start") + "</size>");
-			
-			GUI.Label( new Rect(Common.UI_LABEL_START_X, 
-			                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * guiIndex,
-			                    Common.UI_LABEL_SIZE_X , 
-			                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_STATUS,
-			                                                             _GetLoggingStringFromPoseStatus(m_status[DEVICE_TO_START]),
-			                                                             _GetLoggingStringFromFrameCount(m_frameCount[DEVICE_TO_START]),
-			                                                             _GetLogginStringFromFrameDeltaTime(m_frameDeltaTime[DEVICE_TO_START]),
-			                                                             _GetLoggingStringFromVec3(m_tangoPosition[DEVICE_TO_START]),
-			                                                             _GetLoggingStringFromQuaternion(m_tangoRotation[DEVICE_TO_START])) + "</size>");
-			
-			if(m_useADF || m_tangoApplication.m_enableAreaLearning)
-			{
-				// ADF
-				GUI.Label( new Rect(Common.UI_LABEL_START_X, 
-				                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * (++guiIndex),
-				                    Common.UI_LABEL_SIZE_X , 
-				                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TARGET_TO_BASE_FRAME,
-				                                                             "Device",
-				                                                             "ADF") + "</size>");
-				
-				GUI.Label( new Rect(Common.UI_LABEL_START_X, 
-				                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * (++guiIndex),
-				                    Common.UI_LABEL_SIZE_X , 
-				                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_STATUS,
-				                                                             _GetLoggingStringFromPoseStatus(m_status[DEVICE_TO_ADF]),
-				                                                             _GetLoggingStringFromFrameCount(m_frameCount[DEVICE_TO_ADF]),
-				                                                             _GetLogginStringFromFrameDeltaTime(m_frameDeltaTime[DEVICE_TO_ADF]),
-				                                                             _GetLoggingStringFromVec3(m_tangoPosition[DEVICE_TO_ADF]),
-				                                                             _GetLoggingStringFromQuaternion(m_tangoRotation[DEVICE_TO_ADF])) + "</size>");
-				
-				// RELOCALIZATION
-				GUI.Label( new Rect(Common.UI_LABEL_START_X, 
-				                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * (++guiIndex),
-				                    Common.UI_LABEL_SIZE_X , 
-				                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TARGET_TO_BASE_FRAME,
-				                                                             "Start",
-				                                                             "ADF") + "</size>");
-				
-				GUI.Label( new Rect(Common.UI_LABEL_START_X, 
-				                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * (++guiIndex),
-				                    Common.UI_LABEL_SIZE_X , 
-				                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_STATUS,
-				                                                             _GetLoggingStringFromPoseStatus(m_status[START_TO_ADF]),
-				                                                             _GetLoggingStringFromFrameCount(m_frameCount[START_TO_ADF]),
-				                                                             _GetLogginStringFromFrameDeltaTime(m_frameDeltaTime[START_TO_ADF]),
-				                                                             _GetLoggingStringFromVec3(m_tangoPosition[START_TO_ADF]),
-				                                                             _GetLoggingStringFromQuaternion(m_tangoRotation[START_TO_ADF])) + "</size>");
-			}
-		}
-		GUI.color = oldColor;
-	}
+	//private void OnGUI()
+	//{
+	//	Color oldColor = GUI.color;
+	//	GUI.color = Color.black;
+	//	
+	//	if(m_tangoApplication.HasRequestedPermissions())
+	//	{
+	//		int guiIndex = 1;
+	//		GUI.Label(new Rect(Common.UI_LABEL_START_X, 
+	//		                   Common.UI_LABEL_START_Y, 
+	//		                   Common.UI_LABEL_SIZE_X , 
+	//		                   Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TANGO_SERVICE_VERSION, m_tangoServiceVersionName) + "</size>");
+	//		
+	//		// MOTION TRACKING
+	//		GUI.Label( new Rect(Common.UI_LABEL_START_X, 
+	//		                    Common.UI_POSE_LABEL_START_Y,
+	//		                    Common.UI_LABEL_SIZE_X , 
+	//		                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TARGET_TO_BASE_FRAME,
+	//		                                                             "Device",
+	//		                                                             "Start") + "</size>");
+	//		
+	//		GUI.Label( new Rect(Common.UI_LABEL_START_X, 
+	//		                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * guiIndex,
+	//		                    Common.UI_LABEL_SIZE_X , 
+	//		                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_STATUS,
+	//		                                                             _GetLoggingStringFromPoseStatus(m_status[DEVICE_TO_START]),
+	//		                                                             _GetLoggingStringFromFrameCount(m_frameCount[DEVICE_TO_START]),
+	//		                                                             _GetLogginStringFromFrameDeltaTime(m_frameDeltaTime[DEVICE_TO_START]),
+	//		                                                             _GetLoggingStringFromVec3(m_tangoPosition[DEVICE_TO_START]),
+	//		                                                             _GetLoggingStringFromQuaternion(m_tangoRotation[DEVICE_TO_START])) + "</size>");
+	//		
+	//		if(m_useADF || m_tangoApplication.m_enableAreaLearning)
+	//		{
+	//			// ADF
+	//			GUI.Label( new Rect(Common.UI_LABEL_START_X, 
+	//			                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * (++guiIndex),
+	//			                    Common.UI_LABEL_SIZE_X , 
+	//			                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TARGET_TO_BASE_FRAME,
+	//			                                                             "Device",
+	//			                                                             "ADF") + "</size>");
+	//			
+	//			GUI.Label( new Rect(Common.UI_LABEL_START_X, 
+	//			                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * (++guiIndex),
+	//			                    Common.UI_LABEL_SIZE_X , 
+	//			                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_STATUS,
+	//			                                                             _GetLoggingStringFromPoseStatus(m_status[DEVICE_TO_ADF]),
+	//			                                                             _GetLoggingStringFromFrameCount(m_frameCount[DEVICE_TO_ADF]),
+	//			                                                             _GetLogginStringFromFrameDeltaTime(m_frameDeltaTime[DEVICE_TO_ADF]),
+	//			                                                             _GetLoggingStringFromVec3(m_tangoPosition[DEVICE_TO_ADF]),
+	//			                                                             _GetLoggingStringFromQuaternion(m_tangoRotation[DEVICE_TO_ADF])) + "</size>");
+	//			
+	//			// RELOCALIZATION
+	//			GUI.Label( new Rect(Common.UI_LABEL_START_X, 
+	//			                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * (++guiIndex),
+	//			                    Common.UI_LABEL_SIZE_X , 
+	//			                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TARGET_TO_BASE_FRAME,
+	//			                                                             "Start",
+	//			                                                             "ADF") + "</size>");
+	//			
+	//			GUI.Label( new Rect(Common.UI_LABEL_START_X, 
+	//			                    Common.UI_POSE_LABEL_START_Y + Common.UI_LABEL_OFFSET * (++guiIndex),
+	//			                    Common.UI_LABEL_SIZE_X , 
+	//			                    Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_STATUS,
+	//			                                                             _GetLoggingStringFromPoseStatus(m_status[START_TO_ADF]),
+	//			                                                             _GetLoggingStringFromFrameCount(m_frameCount[START_TO_ADF]),
+	//			                                                             _GetLogginStringFromFrameDeltaTime(m_frameDeltaTime[START_TO_ADF]),
+	//			                                                             _GetLoggingStringFromVec3(m_tangoPosition[START_TO_ADF]),
+	//			                                                             _GetLoggingStringFromQuaternion(m_tangoRotation[START_TO_ADF])) + "</size>");
+	//		}
+	//	}
+	//	GUI.color = oldColor;
+	//}
 }

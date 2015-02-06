@@ -15,6 +15,8 @@ public class PerspectiveLock : MonoBehaviour {
     private float initial_distance;
     private bool locked;
     private bool grabbed;
+    private bool allowStateChanges;
+    private bool solved;
 
     ////////////////////////////////////////////////////
 
@@ -34,6 +36,25 @@ public class PerspectiveLock : MonoBehaviour {
     ////////////////////////////////////////////////////
 
     public bool Locked { get { return locked; } }
+    public bool Solved { get { return solved; } }
+
+    public void SuccessLock( )
+    {
+        ToggleGrabObject( );
+        allowStateChanges = false;
+        solved = true;
+    }
+
+    public void ReleaseSuccessLock( )
+    {
+        ToggleGrabObject( );
+        grabbed = false;
+        locked = false;
+        renderer.material.color = Color.red;
+        allowStateChanges = true;
+        solved = false;
+
+    }
 
     public void LockObjectPerspective( )
     {
@@ -57,13 +78,14 @@ public class PerspectiveLock : MonoBehaviour {
             renderer.material.color = Color.red;
 
             transform.parent = original_parent;
+            //forward_offset = transform.forward - lock_target.forward;
 
             grabbed = false;
         }
         else
         {
             renderer.material.color = Color.blue;
-
+            //lock_angle = transform.rotation;
             original_parent = transform.parent;
 
             transform.parent = lock_target;
@@ -89,16 +111,19 @@ public class PerspectiveLock : MonoBehaviour {
 
     public void ToggleObjectState( )
     {
-        if( grabbed )
+        if( allowStateChanges )
         {
-            ToggleGrabObject( );
-        }
-        else
-        {
-            ToggleObjectLocked( );
-
-            if( !locked )
+            if( grabbed )
+            {
                 ToggleGrabObject( );
+            }
+            else
+            {
+                ToggleObjectLocked( );
+
+                if( !locked )
+                    ToggleGrabObject( );
+            }
         }
     }
 
@@ -114,14 +139,22 @@ public class PerspectiveLock : MonoBehaviour {
     {
 
         locked = false;
-
+        allowStateChanges = true;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
 
-        if( locked )
+        if( grabbed )
+        {
+            //transform.rotation = lock_angle;
+            //Vector3 forward_off = lock_target.forward + forward_offset;
+
+            //transform.rotation = Quaternion.LookRotation( new Vector3( forward_off.x, forward_off.y, forward_off.z ), transform.up );
+        }
+
+        else if( locked )
         {
             // Rotate the Object so it is facing the target
             //transform.rotation = Quaternion.Inverse( lock_angle ) * lock_target.rotation;
@@ -134,7 +167,6 @@ public class PerspectiveLock : MonoBehaviour {
             float curr_distance = Vector3.Magnitude( transform.position - lock_target.position );
 
             float scale_ratio = curr_distance / initial_distance;
-            Debug.Log( scale_ratio );
 
             transform.localScale = lock_scale * scale_ratio;
         }
