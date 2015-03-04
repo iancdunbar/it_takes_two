@@ -17,6 +17,7 @@ public class PerspectiveLock : MonoBehaviour {
     private bool grabbed;
     private bool allowStateChanges;
     private bool solved;
+    private bool allow_solve;
 
     ////////////////////////////////////////////////////
 
@@ -32,17 +33,36 @@ public class PerspectiveLock : MonoBehaviour {
 
 
     ////////////////////////////////////////////////////
+    // Private Funtions
+    ////////////////////////////////////////////////////
+
+    private void delay_success_check( )
+    {
+        allow_solve = true;
+    }
+
+    ////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////
     // Public Funtions
     ////////////////////////////////////////////////////
 
     public bool Locked { get { return locked; } }
     public bool Solved { get { return solved; } }
 
-    public void SuccessLock( )
+    public bool SuccessLock( )
     {
-        ToggleGrabObject( );
-        allowStateChanges = false;
-        solved = true;
+        if( allow_solve )
+        {
+            ToggleGrabObject( );
+            allowStateChanges = false;
+            solved = true;
+
+            return true;
+        }
+        else
+            return false;
     }
 
     public void ReleaseSuccessLock( )
@@ -125,6 +145,15 @@ public class PerspectiveLock : MonoBehaviour {
                     ToggleGrabObject( );
             }
         }
+        else
+        {
+            //if( solved )
+            //{
+            //    ReleaseSuccessLock( );
+            //    allow_solve = false;
+            //    Invoke( "delay_success_check", 1.0f );
+            //}
+        }
     }
 
     ////////////////////////////////////////////////////
@@ -140,6 +169,7 @@ public class PerspectiveLock : MonoBehaviour {
 
         locked = false;
         allowStateChanges = true;
+        allow_solve = true;
 	}
 	
 	// Update is called once per frame

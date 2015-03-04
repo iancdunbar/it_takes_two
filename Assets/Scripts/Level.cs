@@ -21,7 +21,7 @@ public class Level : MonoBehaviour {
     {
         foreach( SuccessTarget st in GetSuccessTargets( ) )
         {
-            st.ClearLines( );
+            st.Shutdown( );
         }
     }
 

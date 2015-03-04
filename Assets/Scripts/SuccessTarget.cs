@@ -8,7 +8,13 @@ public class SuccessTarget : MonoBehaviour {
     private float SUCCESS_DIST = 25;
 
     [SerializeField]
+    private Vector2 aspect_ratio;
+
+    [SerializeField]
     private Rect target_screen_rect;
+
+    private Rect target_size;
+
     private VectorLine target_lines;
 
     private Vector2 top_left;
@@ -42,7 +48,7 @@ public class SuccessTarget : MonoBehaviour {
         {
             
             points[ i ] = points_3d[ i ];
-            points[ i ].y += target_screen_rect.height;
+            points[ i ].y += target_size.height;
         }
 
         bool result = true;
@@ -57,7 +63,7 @@ public class SuccessTarget : MonoBehaviour {
             Vector2 point = points[ i ];
             
 
-            if( !target_screen_rect.Contains( point ) )
+            if( !target_size.Contains( point ) )
             {
                 result = false;
                 break;
@@ -92,54 +98,6 @@ public class SuccessTarget : MonoBehaviour {
 
     }
 
-    public bool CheckSuccessful( Vector2[ ] points )
-    {
-
-        bool result = true;
-
-        bool tr = false;
-        bool tl = false;
-        bool br = false;
-        bool bl = false;
-
-        for( int i = 0; i < points.Length; i++ )
-        {
-            Vector2 point = points[ i ];
-
-
-            if( !target_screen_rect.Contains( point ) )
-            {
-                result = false;
-                break;
-            }
-
-            if( Vector2.Distance( point, top_left ) < SUCCESS_DIST )
-            {
-                // Debug.Log( "TL " + i );
-                tl = true;
-            }
-            if( Vector2.Distance( point, top_right ) < SUCCESS_DIST )
-            {
-                // Debug.Log( "TR " + i );
-                tr = true;
-            }
-            if( Vector2.Distance( point, bottom_left ) < SUCCESS_DIST )
-            {
-                // Debug.Log( "BL " + i );
-                bl = true;
-            }
-            if( Vector2.Distance( point, bottom_right ) < SUCCESS_DIST )
-            {
-                // Debug.Log( "BR " + i );
-                br = true;
-            }
-
-        }
-
-        return result && tr && tl && br && bl;
-
-    }
-
 	// Use this for initialization
     void Awake( )
     {
@@ -155,18 +113,49 @@ public class SuccessTarget : MonoBehaviour {
 
         target_lines = new VectorLine( "target_lines", new Vector2[ 8 ], Color.black, null, 4 );
 
-        target_screen_rect = new Rect( Screen.width * target_screen_rect.x, Screen.height * target_screen_rect.y, Screen.width * target_screen_rect.width, Screen.height * target_screen_rect.height );
+        //float w = target_screen_rect.width * Screen.width;
 
-        target_lines.MakeRect( target_screen_rect );
+        float max_w = Screen.height * aspect_ratio.x / aspect_ratio.y;
+        float min_w = Screen.width / 15;
+
+        float max_h = Screen.width * aspect_ratio.y / aspect_ratio.x;
+        float min_h = Screen.height / 15;
+
+        float w = Random.RandomRange( min_w, max_w );
+        float h = w * aspect_ratio.y / aspect_ratio.x / ( (float)Screen.width / (float)Screen.height ); //target_screen_rect.height * Screen.height;
+
+        while( h > max_h || h < min_h )
+        {
+            Debug.Log( "Was of improper y" );
+            w = Random.RandomRange( min_w, max_w );
+            h = w * aspect_ratio.y / aspect_ratio.x / ( (float) Screen.width / (float) Screen.height );
+        }
+
+        float x = Random.RandomRange( 0, Screen.width - w ); //target_screen_rect.x * Screen.width;
+        float y = Random.RandomRange( h, Screen.height ); //target_screen_rect.y * Screen.height;
+
+        target_size = new Rect( x, y, w, h );
+
+
+        target_lines.MakeRect( target_size );
         target_lines.Draw( );
 
-        top_left = new Vector2( target_screen_rect.xMin, target_screen_rect.yMax );// - target_screen_rect.height );
-        top_right = new Vector2( target_screen_rect.xMax, target_screen_rect.yMax );// - target_screen_rect.height );
+        top_left = new Vector2( target_size.xMin, target_size.yMax );// - target_size.height );
+        top_right = new Vector2( target_size.xMax, target_size.yMax );// - target_size.height );
 
-        bottom_left = new Vector2( target_screen_rect.xMin, target_screen_rect.yMin );// - target_screen_rect.height );
-        bottom_right = new Vector2( target_screen_rect.xMax, target_screen_rect.yMin );// - target_screen_rect.height );
+        bottom_left = new Vector2( target_size.xMin, target_size.yMin );// - target_size.height );
+        bottom_right = new Vector2( target_size.xMax, target_size.yMin );// - target_size.height );
 
         initialized = true;
+    }
+
+    public void Shutdown( )
+    {
+        solved = false;
+        
+        ClearLines( );
+
+        initialized = false;
     }
 
 }

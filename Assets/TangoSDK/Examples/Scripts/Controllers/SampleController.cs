@@ -192,11 +192,15 @@ public class SampleController : PoseListener
 			m_alreadyInitialized = true;
 			m_shouldInitTango = false;
 			
+            Debug.Log( "Connecting to Tango Service" );
 			m_tangoApplication.ConnectToService();
+            Debug.Log( "Tango Service Connected" );
 		}
+
 
 		if (m_isDirty)
 		{
+            Debug.Log( "Processing Dirty State" );
 			// This rotation needs to be put into Unity coordinate space.
 			Quaternion rotationFix = Quaternion.Euler(90.0f, 0.0f, 0.0f);
 			
@@ -235,8 +239,8 @@ public class SampleController : PoseListener
 			AndroidHelper.AndroidQuit();
 		}
 		
-		#else
-		Vector3 tempPosition = transform.position;
+#else
+        Vector3 tempPosition = transform.position;
 		Quaternion tempRotation = transform.rotation;
 		PoseProvider.GetMouseEmulation(ref tempPosition, ref tempRotation);
 		transform.rotation = tempRotation;

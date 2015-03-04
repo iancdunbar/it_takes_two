@@ -28,6 +28,9 @@ public class SimpleGameController : MonoBehaviour {
     [SerializeField]
     private GameObject _returnbutton;
 
+    [SerializeField]
+    private GameObject _creditslabel;
+
     public static SimpleGameController Get 
     { 
         get
@@ -60,13 +63,7 @@ public class SimpleGameController : MonoBehaviour {
     public void OnClickStartGame( )
     {
 
-        Application.LoadLevel( 1 );
-
-        NGUITools.SetActive( _playbutton, false );
-        NGUITools.SetActive( _aboutbutton, false );
-        NGUITools.SetActive( _aboutpanel, false );
-        NGUITools.SetActive( _titlelabel, false );
-        NGUITools.SetActive( _menubutton, true );
+        Application.LoadLevel( 1 );        
     }
 
     public void OnClickMenu( )
@@ -103,14 +100,6 @@ public class SimpleGameController : MonoBehaviour {
 
     public void OnClickReturn( )
     {
-        // This will hide the menu
-        OnClickMenu( );
-
-        NGUITools.SetActive( _playbutton, true );
-        NGUITools.SetActive( _aboutbutton, true );
-        NGUITools.SetActive( _aboutpanel, false );
-        NGUITools.SetActive( _titlelabel, true );
-        NGUITools.SetActive( _menubutton, false );
 
         Application.LoadLevel( 0 );
     }
@@ -125,7 +114,33 @@ public class SimpleGameController : MonoBehaviour {
     {
 
 	}
-	
+
+    void OnLevelWasLoaded( int level )
+    {
+        switch( level )
+        {
+            case 0:
+                NGUITools.SetActive( _playbutton, true );
+                NGUITools.SetActive( _aboutbutton, true );
+                NGUITools.SetActive( _aboutpanel, false );
+                NGUITools.SetActive( _titlelabel, true );
+                NGUITools.SetActive( _creditslabel, true );
+                NGUITools.SetActive( _menubutton, false );
+                NGUITools.SetActive( _returnbutton, false );
+                NGUITools.SetActive( _resetbutton, false );
+                break;
+            case 1:
+                NGUITools.SetActive( _playbutton, false );
+                NGUITools.SetActive( _aboutbutton, false );
+                NGUITools.SetActive( _aboutpanel, false );
+                NGUITools.SetActive( _titlelabel, false );
+                NGUITools.SetActive( _creditslabel, false );
+                NGUITools.SetActive( _menubutton, true );
+                break;
+        }
+
+    }
+
 	// Update is called once per frame
 	void Update () 
     {

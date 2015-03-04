@@ -25,12 +25,6 @@ public class ScreenProjector : MonoBehaviour {
     //  Inspector Variables
     ////////////////////////////////////////////////////
 
-    [SerializeField]
-    private SuccessTarget tgt;
-    [SerializeField]
-    private SuccessTarget tgt2;
-    [SerializeField]
-    private SuccessTarget tgt3;
 
     ////////////////////////////////////////////////////
 

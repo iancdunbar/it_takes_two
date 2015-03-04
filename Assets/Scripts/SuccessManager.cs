@@ -48,8 +48,10 @@ public class SuccessManager : MonoBehaviour {
                     else
                     {
 
-                        sp.GetComponent<PerspectiveLock>( ).SuccessLock( );
-                        target.ChangeColor( Color.green );
+                        if( sp.GetComponent<PerspectiveLock>( ).SuccessLock( ) )
+                        {
+                            target.ChangeColor( Color.green );
+                        }
 
                         break;
                     }
@@ -61,11 +63,15 @@ public class SuccessManager : MonoBehaviour {
             }
 
 
+#if UNITY_EDITOR
+            if( Input.GetKeyDown( KeyCode.Space ) )
+            {
+                success = true;
+            }
+#endif
 
             if( success )
             {
-                // Go to the next scene?
-                Debug.Log( "MASTERFUL PERFORMANCE" );
 
                 // Display a success message?
                 solved = true;
@@ -88,14 +94,18 @@ public class SuccessManager : MonoBehaviour {
         }
 
         levels[ curr_target_index ].ClearSuccessLines( );
-        levels[ curr_target_index ].gameObject.SetActive( false );
+        //levels[ curr_target_index ].gameObject.SetActive( false );
 
         curr_target_index++;
 
-        if( curr_target_index < levels.Count )
-        {
+        if( curr_target_index >= levels.Count )
+            curr_target_index = 0;
+
+        //if( curr_target_index < levels.Count )
+        //{
             curr_targets = levels[ curr_target_index ].GetSuccessTargets( );
             solved = false;
-        }
+        //}
+        
     }
 }
