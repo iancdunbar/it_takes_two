@@ -48,18 +48,18 @@ public class EventController : TangoEventListener {
     /// <summary>
     /// GUI function logs Tango event on screen.
     /// </summary>
-    //void OnGUI() 
-    //{
-    //    Color oldColor = GUI.color;
-    //    GUI.color = Color.black;
-    //    if (m_tangoApplication.HasRequestedPermissions())
-    //    {
-    //        // Event logging.
-    //        GUI.Label(new Rect(Common.UI_LABEL_START_X,
-    //                           Common.UI_EVENT_LABEL_START_Y, 
-    //                           Common.UI_LABEL_SIZE_X ,
-    //                           Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TANGO_SYSTEM_EVENT, m_eventString) + "</size>");
-    //        GUI.color = oldColor;
-    //    }
-    //}
+    void OnGUI() 
+    {
+        Color oldColor = GUI.color;
+        GUI.color = Color.black;
+        if (m_tangoApplication.HasRequestedPermissions())
+        {
+            // Event logging.
+            GUI.Label(new Rect(Common.UI_LABEL_START_X,
+                               Common.UI_EVENT_LABEL_START_Y, 
+                               Common.UI_LABEL_SIZE_X ,
+                               Common.UI_LABEL_SIZE_Y), Common.UI_FONT_SIZE + String.Format(Common.UX_TANGO_SYSTEM_EVENT, m_eventString) + "</size>");
+            GUI.color = oldColor;
+        }
+    }
 }

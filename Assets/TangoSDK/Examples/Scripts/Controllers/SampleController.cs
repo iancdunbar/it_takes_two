@@ -85,6 +85,10 @@ public class SampleController : PoseListener
 	/// </summary>
 	private void Awake()
 	{
+        //DontDestroyOnLoad( this );
+
+
+        Debug.Log( "Awaking Tango" );
 		m_isDirty = false;
 		m_startingOffset = transform.position;
 		m_startingRotation = transform.rotation;
@@ -98,11 +102,18 @@ public class SampleController : PoseListener
 		m_tangoPosition = new Vector3[]{Vector3.zero,Vector3.zero,Vector3.zero};
 	}
 
+    private void OnDestroy( )
+    {
+        m_tangoApplication.Shutdown( );
+        Debug.Log( "Destroying Tango" );
+    }
+
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
 	private void Start()
 	{
+        Debug.Log( "Starting Tango" );
 		m_tangoApplication = FindObjectOfType<TangoApplication>();
 		
 		if(m_tangoApplication != null)
@@ -247,7 +258,7 @@ public class SampleController : PoseListener
 		// Get out of here if the pose is null
 		if (pose == null)
 		{
-			Debug.Log("TangoPoseDate is null.");
+			//Debug.Log("TangoPoseDate is null.");
 			return;
 		}
 		

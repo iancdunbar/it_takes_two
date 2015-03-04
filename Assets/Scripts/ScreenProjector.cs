@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Vectrosity;
 
-public enum Direction { TOP = 0, RIGHT, BOTTOM, LEFT }
+//public enum Direction { TOP = 0, RIGHT, BOTTOM, LEFT }
 
 public class ScreenProjector : MonoBehaviour {
 
